@@ -44,8 +44,11 @@ require('./config/express')(app, config, passport)
 // Bootstrap routes
 require('./config/routes')(app, passport, auth)
 
+// Bootstrap API
+require('./app/api/routes')(app, passport)
+
 // Start the app by listening on <port>
-var port = process.env.PORT || 3000
+var port = process.env.PORT || config.port || 8000
 app.listen(port)
 console.log('Express app started on port '+port)
 

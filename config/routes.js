@@ -34,6 +34,9 @@ module.exports = function (app, passport, auth) {
 
   app.param('id', articles.article)
 
+  //property routes
+  var properties = require('../app/controllers/properties')
+
   // home route
   app.get('/', articles.index)
 
