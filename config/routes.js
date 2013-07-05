@@ -36,6 +36,15 @@ module.exports = function (app, passport, auth) {
 
   //property routes
   var properties = require('../app/controllers/properties')
+  //app.get('/properties', auth.requiresLogin, properties.index)
+  app.get('/properties', properties.index)
+  app.get('/property/new', auth.requiresLogin, properties.new)
+  app.get('/property/:proid', auth.requiresLogin, properties.show)
+  app.get('/property/:proid/edit', auth.requiresLogin, auth.property.hasAuthorization, properties.edit)
+  app.del('/property/:proid', auth.requiresLogin, auth.property.hasAuthorization, properties.destroy)
+  app.put('/property/:proid', auth.requiresLogin, auth.property.hasAuthorization, properties.update)
+
+  app.param('proid', properties.property)
 
   // home route
   app.get('/', articles.index)

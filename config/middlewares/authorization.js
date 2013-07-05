@@ -37,3 +37,17 @@ exports.article = {
     next()
   }
 }
+
+/*
+ *  Property authorization routing middleware
+ */
+
+ exports.property = {
+  hasAuthorization: function(req, res, next){
+    if( req.property.agent.id != req.user._id){
+      req.flash('info', 'You are not authorized')
+      return res.redirect('/properties')
+    }
+    next()
+  }
+ }

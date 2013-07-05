@@ -1,0 +1,52 @@
+extends ../layouts/default
+include ../includes/form-helpers
+
+block main
+  h1= title
+  hr
+
+block content
+  - var action = '/property'
+  - action += property.isNew? '' : '/' + property.id
+
+  .row
+    .span7
+      form.form-horizontal(method="post", action=action)
+
+        input(type="hidden", name="_csrf", value="#{csrf_token}")
+
+        - if (!property.isNew)
+          input(type="hidden", name="_method", value="PUT")
+
+        .control-group
+          label.control-label(for='name') Name
+          .controls
+            input#typeahead.input-xlarge(type='text', name="name", value=property.cname, placeholder='Enter the name', data-provide="typeahead")
+
+        mixin control-group-areafield('description','Description', property.description, '')
+        mixin control-group-selectfield('floor','Floor',property.floor,['高','中','低'])
+        mixin control-group-selectfield('type','Type', property.type, ['租','售','租/售'])
+        mixin control-group-field('number','area','Area',property.area,'')
+        mixin control-group-field('number','price','Price',property.price,'')
+        mixin control-group-field('text','latitude','Latitude', property.location.lat,'','-?\\d{1,3}\\.\\d+')
+        mixin control-group-field('text','longitude','Longitude', property.location.lng,'','-?\\d{1,3}\\.\\d+')
+
+        //- .control-group
+        //-   label.control-label(for='title') Image
+        //-   .controls
+        //-     input(type='file', name="image[]")
+
+        //- .control-group
+        //-   label.control-label(for='desc') Body
+        //-   .controls
+        //-     textarea#desc.input-xlarge(type='text', rows="5", name="body", placeholder='Enter the article description')=article.body
+
+        //- .control-group
+        //-   label.control-label(for='desc') Tags
+        //-   .controls
+        //-     input#tags(type='text', name="tags", value=article.tags, placeholder='Enter the tags')
+
+        .form-actions
+          button.btn.btn-primary(type='submit') Save changes
+          &nbsp;
+          a.btn(href='/properties', title="cancel") Cancel

@@ -4,7 +4,7 @@ body {
 
 .container {
   width: auto;
-  max-width: 680px;
+  max-width: 1280px;
 }
 
 .article, .comment {
@@ -20,4 +20,22 @@ body {
 .form-actions {
   background: #fff;
   border: 0;
+}
+
+/* Property css */
+table.property tr td.operator{
+  text-align: right;
+}
+
+table.property tr td.operator a{
+  margin-right: 5px;
+}
+
+table.property tr td.operator a:hover{
+  color: red;
+  text-decoration: none;
+}
+
+table.property tr td form{
+  margin: 0 0;
 }

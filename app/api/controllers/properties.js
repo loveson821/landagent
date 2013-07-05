@@ -28,7 +28,11 @@ exports.create = function(req, res){
     if(!err){
       res.send(doc)
     }else{
-      res.status(500).send({'status':500})
+      //res.status(500).send({'status':500})
+      res.status(500).send({
+        'success': false,
+        'error': 'cannot create, db Failed'
+      })
     }
   })  
 }
@@ -56,5 +60,25 @@ exports.shake = function(req, res){
   Property.nearOne({x: lat, y: lng},function(err, doc){
     if(err) res.status(500).send({'status':500})
     res.send(doc)
+  })
+}
+
+exports.search = function(req, res){
+  word = req.params.word || ''
+  var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
+  var perPage = 5
+  var options = {
+    perPage: perPage,
+    page: page
+  }
+
+  Property.search(word, options, function(err, docs){
+    if(err){
+      res.send({
+        'success': false
+      })
+    }
+    else
+      res.send(docs)
   })
 }

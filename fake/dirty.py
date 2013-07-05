@@ -1,21 +1,32 @@
-from pymongo import MongoClient
+# -*- coding: utf-8 -*-
 
+from pymongo import MongoClient
+from random import choice
 client = MongoClient('localhost', 27017)
 db = client['landagent']
 
 if __name__ == '__main__':
-    for doc in db['pbs'].find():
-        try:
-            doc['position']
-        except:
-            continue
-        property = {}
-        property['cname'] = doc['cname']
-        property['sname'] = doc['sname']
-        property['location'] = doc['position']
-        property['description'] = doc['description']
-        db['properties'].save(property)
-        print doc['id']
+    floors = ['高','中','低']
+
+    # for doc in db['users'].find():
+    #     doc['phone'] = 62462436
+    #     db['users'].save(doc)
+    for doc in db['properties'].find():
+        # try:
+        #     doc['position']
+        # except:
+        #     continue
+        # property = {}
+        # property['cname'] = doc['cname']
+        # property['sname'] = doc['sname']
+        # property['location'] = doc['position']
+        # property['description'] = doc['description']
+
+        #db['properties'].save(property)
+        doc['floor'] = choice(floors).decode('utf8')
+        db['properties'].save(doc)
+        #print doc
+        print doc['_id']
     
 '''
 class Store():

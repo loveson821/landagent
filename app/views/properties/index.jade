@@ -1,0 +1,30 @@
+extends ../layouts/default
+
+block main
+  h1= title
+
+block content
+  table(class="table table-striped property")
+    each property,i in properties
+      tr.property
+          td= property.cname
+          td= property.type
+          td= '$' + property.price
+          td= formatDate(property.createdAt)
+          td.operator
+            //- a(href='#{property.id}') 
+            form(action="/property/#{property.id}", method="post", id="form-#{property.id}")
+              a.btn(href='/property/#{property.id}/edit') 
+                span Edit
+              //- a.btn(href='/property/#{property.id}') 
+              //-   span Show
+              input(type='hidden', name='_csrf', value="#{csrf_token}")
+              input(type="hidden", name="_method", value="DELETE")
+              button.btn.btn-danger(type="submit") 
+                span delete
+            
+
+  if (pages > 1)
+    .pagination
+      ul
+        != createPagination(pages, page)

@@ -96,10 +96,19 @@ module.exports = function (app, config, passport) {
 
     // assume 404 since no middleware responded
     app.use(function(req, res, next){
-      res.status(404).render('404', {
-        url: req.originalUrl,
-        error: 'Not found'
-      })
+      if( req.originalUrl.split('/')[1] == 'api' ){
+        res.status(404).send({
+          'success': false,
+          'error': 'Not found'
+        })
+      }
+      else{
+        res.status(404).render('404', {
+          url: req.originalUrl,
+          error: 'Not found'
+        })
+      }
+      
     })
   })
 }

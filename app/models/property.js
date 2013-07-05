@@ -8,8 +8,10 @@ var mongoose = require('mongoose')
 
 var PropertySchema = new Schema({
   name: { type: String, default : '', trim : true },
+  cname: { type: String, default : '', trim : true },
+  sname: { type: String, default : '', trim : true },
   address: { type: String, default : '', trim : true },
-  floor: { type: String, default : '', trim : true },
+  floor: { type: String, default : '中', trim : true },
   price: { type: Number, default : 0, trim : true },
   area: { type: Number, default: 0},
   type: { type: String, default: '', trim: true},
@@ -22,7 +24,7 @@ var PropertySchema = new Schema({
   agent: { type: Schema.ObjectId, ref: 'User'}
 })
 
-PropertySchema.index({"location": "2d"});
+PropertySchema.index({"location": "2d", "createdAt": -1});
 
 /**
   * Validations
@@ -61,6 +63,17 @@ PropertySchema.methods = {
  */
 
 PropertySchema.statics = {
+
+  /* Search by name */
+  search: function( word, options, cb){
+    var searchRegex = new RegExp(word, 'i');
+    this.find({cname: { $regex: searchRegex }})
+      .populate('agent', 'name email username')
+      .sort({'createdAt': -1}) // sort by date
+      .limit(options.perPage)
+      .skip(options.perPage * options.page)
+      .exec(cb);
+  },
 
   /**
    * Find property by id

@@ -8,6 +8,7 @@ module.exports = function(app, passport) {
   app.get('/api/properties', properties.index)
   app.get('/api/property/:proid', properties.show)
   app.get('/api/property/shake/:lat/:lng', properties.shake)
+  app.get('/api/properties/search/:word', properties.search)
 
   app.param('proid', properties.property)
 }
