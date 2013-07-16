@@ -47,7 +47,7 @@ module.exports = function (app, passport, auth) {
   app.param('proid', properties.property)
 
   // home route
-  app.get('/', properties.index)
+  app.get('/', users.login)
 
   // comment routes
   var comments = require('../app/controllers/comments')
