@@ -21,7 +21,7 @@ module.exports = {
     app: {
       name: 'Nodejs Express Mongoose Demo'
     },
-    port: 3000,
+    port: 4000,
     facebook: {
       clientID: "APP_ID",
       clientSecret: "APP_SECRET",
