@@ -14,6 +14,7 @@ var PropertySchema = new Schema({
   floor: { type: String, default : '中', trim : true },
   price: { type: Number, default : 0, trim : true },
   area: { type: Number, default: 0},
+  state: { type: String, default: '', trim: true},
   type: { type: String, default: '', trim: true},
   createdAt: { type: Date, default: Date.now },
   location: { 
@@ -24,7 +25,7 @@ var PropertySchema = new Schema({
   agent: { type: Schema.ObjectId, ref: 'User'}
 })
 
-PropertySchema.index({"location": "2d", "createdAt": -1});
+PropertySchema.index({"location": "2d", "createdAt": -1, "name": 1, "state": 1, "price": 1});
 
 /**
   * Validations
