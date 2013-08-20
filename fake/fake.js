@@ -36,8 +36,9 @@ Property = mongoose.model('Property')
 //   });
 // }
 
-states = ['租','售','租/售']
+states = ['出租','出售','租或售']
 types = ['住宅','店舖','車位','辦公室']
+floors = ['低層','中層','高層']
 Property.find({}).exec(function(err, docs){
   docs.forEach(function(elem, index, array){
     User.random(function(err, user){
@@ -46,6 +47,7 @@ Property.find({}).exec(function(err, docs){
       elem.name = elem.cname || elem.sname;
       elem.price = Math.floor(Math.random()*200) + 300;
       elem.type = types[Math.floor(Math.random()*3)];
+      elem.floor = floors[Math.floor(Math.random()*3)];
       elem.state = states[Math.floor(Math.random()*4)];
       elem.createdAt = Date.now();
       elem.save(function(err, d){

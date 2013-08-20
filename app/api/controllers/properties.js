@@ -64,21 +64,30 @@ exports.shake = function(req, res){
 }
 
 exports.search = function(req, res){
-  word = req.params.word || ''
+  var word = req.param('word') || ''
+  var query = {}
+  
+  req.param('word') && ( query.name = { $regex: new RegExp( req.param('word'), 'i') } )
+  req.param('state') && ( query.state = req.param('state') )
+  req.param('type') && ( query.type = req.param('type') )
+  req.param('floor') && ( query.floor = req.param('floor'))
+  
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
-  var perPage = 5
+  var count = req.param('count') > 0 ? req.param('count') : 10
+
   var options = {
-    perPage: perPage,
+    perPage: count,
     page: page
   }
 
-  Property.search(word, options, function(err, docs){
+  Property.search(query, options, function(err, docs, count, next){
     if(err){
       res.send({
-        'success': false
+        'success': false, 'error': err
       })
     }
-    else
-      res.send(docs)
+    else{
+      res.send({count: count, next: next, docs: docs})
+    }
   })
 }

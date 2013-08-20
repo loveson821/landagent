@@ -11,7 +11,7 @@ var PropertySchema = new Schema({
   cname: { type: String, default : '', trim : true },
   sname: { type: String, default : '', trim : true },
   address: { type: String, default : '', trim : true },
-  floor: { type: String, default : '中', trim : true },
+  floor: { type: String, default : '中層', trim : true },
   price: { type: Number, default : 0, trim : true },
   area: { type: Number, default: 0},
   state: { type: String, default: '', trim: true},
@@ -25,7 +25,7 @@ var PropertySchema = new Schema({
   agent: { type: Schema.ObjectId, ref: 'User'}
 })
 
-PropertySchema.index({"location": "2d", "createdAt": -1, "name": 1, "state": 1, "price": 1});
+PropertySchema.index({"location": "2d", "createdAt": -1, "name": 1, "type": 1, "state": 1, "price": 1});
 
 /**
   * Validations
@@ -66,14 +66,18 @@ PropertySchema.methods = {
 PropertySchema.statics = {
 
   /* Search by name */
-  search: function( word, options, cb){
-    var searchRegex = new RegExp(word, 'i');
-    this.find({cname: { $regex: searchRegex }})
+  search: function( query, options, cb){
+    var ResultSet = this.find(query)
+    ResultSet
       .populate('agent', 'name email username')
       .sort({'createdAt': -1}) // sort by date
       .limit(options.perPage)
       .skip(options.perPage * options.page)
-      .exec(cb);
+      .exec(function(err, docs){
+        ResultSet.count(function(err2, count){
+          cb(err, docs, count, count > options.perPage*(options.page+1))
+        })
+      });
   },
 
   /**
