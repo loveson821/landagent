@@ -69,7 +69,7 @@ PropertySchema.statics = {
   search: function( query, options, cb){
     var ResultSet = this.find(query)
     ResultSet
-      .populate('agent', 'name email username')
+      .populate('agent', 'name email phone')
       .sort({'createdAt': -1}) // sort by date
       .limit(options.perPage)
       .skip(options.perPage * options.page)
@@ -86,7 +86,7 @@ PropertySchema.statics = {
 
   load: function (id, cb) {
     this.findOne({ _id : id })
-      .populate('agent', 'name email username')
+      .populate('agent', 'name email phone')
       //.populate('comments.user')
       .exec(cb)
   },

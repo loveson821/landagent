@@ -4,6 +4,7 @@
 
 var mongoose = require('mongoose')
   , Property = mongoose.model('Property')
+  , utils = require('../../../lib/utils')
 
 // Find property by id
 exports.property = function(req, res, next, id) {
@@ -68,9 +69,9 @@ exports.search = function(req, res){
   var query = {}
   
   req.param('word') && ( query.name = { $regex: new RegExp( req.param('word'), 'i') } )
-  req.param('state') && ( query.state = req.param('state') )
-  req.param('type') && ( query.type = req.param('type') )
-  req.param('floor') && ( query.floor = req.param('floor'))
+  req.param('type') && ( query.type = utils.paramEncap( req.param('type'), '$in') )
+  req.param('state') && ( query.state = utils.paramEncap( req.param('state'), '$in') )
+  req.param('floor') && ( query.floor = utils.paramEncap( req.param('floor'), '$in') )
   
   var page = (req.param('page') > 0 ? req.param('page') : 1) - 1
   var count = req.param('count') > 0 ? req.param('count') : 10
