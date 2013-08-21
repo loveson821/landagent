@@ -1,4 +1,5 @@
-//var faker = require('./faker.js');
+var faker = require('./faker.js');
+var mt = require('mersenne');
 var env = process.env.NODE_ENV || 'development'
   , config = require('../config/config')[env]
   , auth = require('../config/middlewares/authorization')
@@ -48,8 +49,11 @@ Property.find({}).exec(function(err, docs){
       elem.price = Math.floor(Math.random()*200) + 300;
       elem.type = types[Math.floor(Math.random()*3)];
       elem.floor = floors[Math.floor(Math.random()*3)];
-      elem.state = states[Math.floor(Math.random()*4)];
+      elem.state = states[Math.floor(Math.random()*3)];
       elem.createdAt = Date.now();
+			var body_size = Math.floor(mt.rand(2)) + 3;
+			for( var i = 0; i < body_size; ++i )
+        elem.description += faker.randomSent()
       elem.save(function(err, d){
         if (err) throw err;
         console.log(d.id);
@@ -58,4 +62,5 @@ Property.find({}).exec(function(err, docs){
     
   });
 });
+
 

@@ -17,6 +17,7 @@ var PropertySchema = new Schema({
   state: { type: String, default: '', trim: true},
   type: { type: String, default: '', trim: true},
   createdAt: { type: Date, default: Date.now },
+  modifiedAt: { type: Date, default: Date.now },
   location: { 
     lng: Number,
     lat: Number
@@ -25,7 +26,7 @@ var PropertySchema = new Schema({
   agent: { type: Schema.ObjectId, ref: 'User'}
 })
 
-PropertySchema.index({"location": "2d", "createdAt": -1, "name": 1, "type": 1, "state": 1, "price": 1});
+PropertySchema.index({"location": "2d", "modifiedAt": -1, "createdAt": -1, "name": 1, "type": 1, "state": 1, "price": 1});
 
 /**
   * Validations
