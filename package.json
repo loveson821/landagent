@@ -32,7 +32,8 @@
     "async": "latest",
     "view-helpers": "latest",
     "forever": "latest",
-    "mersenne": "latest"
+    "mersenne": "latest",
+    "node-logentries": "latest"
   },
   "devDependencies": {
     "supertest": "latest",
