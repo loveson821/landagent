@@ -56,8 +56,8 @@ exports.index = function(req, res){
 }
 
 exports.shake = function(req, res){
-  lat = req.param.lat || 22
-  lng = req.param.lng || 113
+  var lat = req.params.lat || 22
+  var lng = req.params.lng || 113
   Property.nearOne({x: lat, y: lng},function(err, doc){
     if(err) res.status(500).send({'status':500})
     res.send(doc)
